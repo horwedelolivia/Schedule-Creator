@@ -1,62 +1,42 @@
 import 'package:flutter/material.dart';
-import 'styles/styles.dart';
+import 'package:schedule_creator/calender.dart'; // Import the calendar.dart file
+import 'package:schedule_creator/styles/styles.dart';
+import 'package:schedule_creator/left_column.dart'; // Import the LeftColumn widget
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Schedule Creator',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        // ignore: deprecated_member_use
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.white,
-          ).copyWith(
-            background: const Color.fromRGBO(239, 239, 239, 1.0),
-          ),
+        ).copyWith(
+          background: const Color.fromRGBO(239, 239, 239, 1.0),
+        ),
         appBarTheme: const AppBarTheme(
           backgroundColor: Color.fromRGBO(255, 255, 255, 1.0),
           titleTextStyle: AppStyles.headingText,
         ),
         useMaterial3: true,
-        ),
+      ),
       home: const MyHomePage(title: 'Home Page'),
+      routes: {
+        '/calendar':(context) => const CalendarPage(),
+        '/main' : (context) => const MyHomePage(title: 'Home Page'),
+      },
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+  const MyHomePage({Key? key, required this.title});
 
   final String title;
 
@@ -68,54 +48,31 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('HomePage'),
-      ),
-      drawer: Drawer(
-        child: Container (
-          color: const Color.fromRGBO(214, 204, 194, 1.0),
-          child: ListView(
-            padding: const EdgeInsets.only(top: 24.0),
-            children: [
-            const DrawerHeader(
-              child: Text(
-                'Scheduler',
-                style: AppStyles.headingText,
+    return const Scaffold(
+      body: Row(
+        children: [
+          // Left column
+          LeftColumn(),
+          // Main content
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(top: 24.0),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Welcome to your personal schedule creator!',
+                      style: AppStyles.headingText,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
             ),
-            ListTile(
-              title: const Text('Page 1'),
-              onTap: () {
-                // Navigate to Page 1
-              },
-            ),
-            ListTile(
-              title: const Text('Page 2'),
-              onTap: () {
-                // Navigate to Page 2
-              },
-            ),
-            // Add more ListTile widgets for additional pages
-            ],
           ),
-        ),
+        ],
       ),
-      body: const Padding(
-        padding: EdgeInsets.only(top: 24.0),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                'Welcome to your personal schedule creator!',
-                style: AppStyles.headingText,
-                textAlign: TextAlign.center,
-              ),
-            ],
-          )
-        ),
-      )
     );
   }
 }
